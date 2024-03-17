@@ -55,8 +55,21 @@ func main() {
 				firstNames = append(firstNames, names[0])
 			}
 			fmt.Printf("first names of bookings are %v \n ", firstNames)
-		} else {
-			fmt.Println("Please enter a valid name, email and ticket number")
+
+			if remaingTickets == 0 {
+				fmt.Println("We are sold out!")
+
+		} 
+	}else {
+		if !isValidName{
+			fmt.Println("Please enter a valid name")
 		}
+		if !isValidEmail{
+			fmt.Println("Please enter a valid email")
+		}
+		if !isValidTicketNumber{
+			fmt.Println("Please enter a valid ticket number")}
+
 	}
+}
 }
