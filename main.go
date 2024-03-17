@@ -1,16 +1,18 @@
 package main
 
 import (
-	"fmt"
-	"strings"
 	"booking-app/helper"
+	"fmt"
+	"strconv"
+
 )
 
 const conferenceTickets = 50
 var conferenceName = "Go_Conference"
 
 var remainingTickets = 50
-var bookings []string 
+// var bookings []string 
+var bookings = make([]map[string]string, 0)
 
 func main() {
 	greetUsers(conferenceName, remainingTickets, conferenceTickets)
@@ -48,13 +50,14 @@ func greetUsers(confName string, confTickets int, confRemainingTickets int) {
 	fmt.Println("Get your tickets now!")
 }
 
-func getFirstNames(bookings []string) []string {
-	firstNames := []string{}
-	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
-	}
-	return firstNames
+
+
+func getFirstNames(bookings []map[string]string) []string {
+    firstNames := []string{}
+    for _, booking := range bookings {
+        firstNames = append(firstNames, booking["firstName"])
+    }
+    return firstNames
 }
 
 func getuserInput() (string, string, string, int) {
@@ -77,11 +80,18 @@ func getuserInput() (string, string, string, int) {
 	return firstName, lastName, email, userTickets
 }
 
-func bookTicket(remaingTickets int, conferneceTickets int, firstName string, lastName string, email string, userTickets int, bookings []string) []string {
+func bookTicket(remaingTickets int, conferneceTickets int, firstName string, lastName string, email string, userTickets int, bookings []map[string]string) []map[string]string{
 	remaingTickets = remaingTickets - userTickets
 	fmt.Println("We have", remaingTickets, "tickets remaining out of", conferneceTickets, "tickets!")
 
-	bookings = append(bookings, firstName+" "+lastName)
+
+	var userData =make (map [string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData ["numberOfTickets"]= strconv.FormatInt(int64(userTickets), 10)
+
+	bookings = append(bookings, userData)
 
 	fmt.Println(bookings)
 	fmt.Printf("type of bookings %T \n", bookings)
