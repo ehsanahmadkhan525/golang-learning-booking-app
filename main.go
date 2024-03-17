@@ -4,6 +4,7 @@ import (
 	"booking-app/helper"
 	"fmt"
 	"time"
+	"sync"
 )
 
 const conferenceTickets = 50
@@ -18,35 +19,39 @@ type userData struct {
 	numberOfTickets  int
 }
 
+var wg = sync.WaitGroup{}
+
 func main() {
 	greetUsers(conferenceName, remainingTickets, conferenceTickets)
 
-	for {
-		firstName, lastName, email, userTickets := getuserInput()
-		isValidName, isValidEmail, isValidTicketNumber := helper.DataValidation(firstName, lastName, email, userTickets, remainingTickets)
 
-		if isValidName && isValidEmail && isValidTicketNumber {
-			bookTicket(firstName, lastName, email, userTickets)
-			go sendTicket()
-			var firstNames = getFirstNames()
-			fmt.Println("First names of bookings are", firstNames)
+	firstName, lastName, email, userTickets := getuserInput()
+	isValidName, isValidEmail, isValidTicketNumber := helper.DataValidation(firstName, lastName, email, userTickets, remainingTickets)
 
-			if remainingTickets == 0 {
-				fmt.Println("We are sold out!")
-			}
-		} else {
-			if !isValidName {
-				fmt.Println("Please enter a valid name")
-			}
-			if !isValidEmail {
-				fmt.Println("Please enter a valid email")
-			}
-			if !isValidTicketNumber {
-				fmt.Println("Please enter a valid ticket number")
-			}
+	if isValidName && isValidEmail && isValidTicketNumber {
+		bookTicket(firstName, lastName, email, userTickets)
+		wg.Add(1)
+		go sendTicket()
+		var firstNames = getFirstNames()
+		fmt.Println("First names of bookings are", firstNames)
+
+		if remainingTickets == 0 {
+			fmt.Println("We are sold out!")
+		}
+	} else {
+		if !isValidName {
+			fmt.Println("Please enter a valid name")
+		}
+		if !isValidEmail {
+			fmt.Println("Please enter a valid email")
+		}
+		if !isValidTicketNumber {
+			fmt.Println("Please enter a valid ticket number")
 		}
 	}
+	wg.Wait()
 }
+
 
 func greetUsers(confName string, confTickets int, confRemainingTickets int) {
 	fmt.Println("Welcome to our Go program!", confName, "coming up in 2024!")
@@ -106,4 +111,5 @@ func bookTicket(firstName string, lastName string, email string, userTickets int
 func sendTicket(){
 	time.Sleep(10 * time.Second)
 	fmt.Println("Sending ticket to user", bookings[0].firstName, bookings[0].lastName, "at", bookings[0].email, "for", bookings[0].numberOfTickets, "tickets!")
+	wg.Done()
 }
