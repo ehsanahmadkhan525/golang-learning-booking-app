@@ -10,9 +10,8 @@ func main() {
 	var conferneceName = "Go_Conference"
 	const conferneceTickets = 50
 	var remaingTickets = 50
-	fmt.Println("Welcome to our Go program!", conferneceName, "coming up in 2024!")
-	fmt.Println("We have", remaingTickets, "tickets remaining out of", conferneceTickets, "tickets!")
-	fmt.Println("Get your tickets now!")
+	greetUsers(conferneceName, remaingTickets, conferneceTickets)
+
 
 	var bookings []string // Move the declaration outside the loop
 
@@ -33,9 +32,7 @@ func main() {
 		fmt.Println("How many tickets would you like to purchase?")
 		fmt.Scan(&userTickets)
 
-		var isValidName = len(firstName) > 2 && len(lastName) > 2
-		var isValidEmail = strings.Contains(email, "@")
-		var isValidTicketNumber = userTickets > 0 && userTickets <= remaingTickets
+        isValidName, isValidEmail, isValidTicketNumber := dataValidation(firstName, lastName, email, userTickets, remaingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 
@@ -49,12 +46,8 @@ func main() {
 
 			fmt.Println("Thank you for purchasing", userTickets, "tickets,", firstName, lastName, "you will receive an confirmation email!", email)
 
-			firstNames := []string{}
-			for _, booking := range bookings {
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
-			fmt.Printf("first names of bookings are %v \n ", firstNames)
+            var firstNames = getFirstNames(bookings)
+			fmt.Println("First names of bookings are", firstNames)
 
 			if remaingTickets == 0 {
 				fmt.Println("We are sold out!")
@@ -72,4 +65,34 @@ func main() {
 
 	}
 }
+}
+
+
+
+func greetUsers(confName string, confTickets int, confRemainingTickets int){
+	fmt.Println("Welcome to our Go program!", confName, "coming up in 2024!")
+	fmt.Println("We have", confRemainingTickets, "tickets remaining out of", confTickets, "tickets!")
+	fmt.Println("Get your tickets now!")
+}
+
+
+func getFirstNames(bookings []string) []string{
+
+	firstNames := []string{}
+	for _, booking := range bookings {
+		var names = strings.Fields(booking)
+		firstNames = append(firstNames, names[0])
+	}
+	fmt.Printf("first names of bookings are %v \n ", firstNames)
+
+	return firstNames
+}
+
+func dataValidation(firstName string, lastName string, email string, userTickets int, remaingTickets int) (bool, bool, bool){
+
+	var isValidName = len(firstName) > 2 && len(lastName) > 2
+	var isValidEmail = strings.Contains(email, "@")
+	var isValidTicketNumber = userTickets > 0 && userTickets <= remaingTickets
+
+	return isValidName, isValidEmail, isValidTicketNumber
 }
