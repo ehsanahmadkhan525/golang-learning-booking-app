@@ -9,6 +9,7 @@ import (
 
 const conferenceTickets = 50
 
+
 var conferenceName = "Go_Conference"
 var remainingTickets = 50
 var bookings = make([]userData, 0)
