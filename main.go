@@ -3,11 +3,12 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
-	"time"
 	"sync"
+	"time"
 )
 
 const conferenceTickets = 50
+
 var conferenceName = "Go_Conference"
 var remainingTickets = 50
 var bookings = make([]userData, 0)
@@ -23,7 +24,6 @@ var wg = sync.WaitGroup{}
 
 func main() {
 	greetUsers(conferenceName, remainingTickets, conferenceTickets)
-
 
 	firstName, lastName, email, userTickets := getuserInput()
 	isValidName, isValidEmail, isValidTicketNumber := helper.DataValidation(firstName, lastName, email, userTickets, remainingTickets)
@@ -51,7 +51,6 @@ func main() {
 	}
 	wg.Wait()
 }
-
 
 func greetUsers(confName string, confTickets int, confRemainingTickets int) {
 	fmt.Println("Welcome to our Go program!", confName, "coming up in 2024!")
@@ -107,8 +106,7 @@ func bookTicket(firstName string, lastName string, email string, userTickets int
 	fmt.Println("Thank you for purchasing", userTickets, "tickets,", firstName, lastName, "you will receive an confirmation email!", email)
 }
 
-
-func sendTicket(){
+func sendTicket() {
 	time.Sleep(10 * time.Second)
 	fmt.Println("Sending ticket to user", bookings[0].firstName, bookings[0].lastName, "at", bookings[0].email, "for", bookings[0].numberOfTickets, "tickets!")
 	wg.Done()
