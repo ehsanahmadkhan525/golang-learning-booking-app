@@ -16,35 +16,15 @@ func main() {
 	var bookings []string // Move the declaration outside the loop
 
 	for {
-		var firstName string
-		var lastName string
-		var email string
-		var userTickets int
 
-		fmt.Println("What is your first name?")
-		fmt.Scan(&firstName)
+		firstName, lastName, email , userTickets :=  getuserInput()
 
-		fmt.Println("What is your last name?")
-		fmt.Scan(&lastName)
-		fmt.Println("What is your email?")
-		fmt.Scan(&email)
-
-		fmt.Println("How many tickets would you like to purchase?")
-		fmt.Scan(&userTickets)
 
         isValidName, isValidEmail, isValidTicketNumber := dataValidation(firstName, lastName, email, userTickets, remaingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 
-			remaingTickets = remaingTickets - userTickets
-			fmt.Println("We have", remaingTickets, "tickets remaining out of", conferneceTickets, "tickets!")
-
-			bookings = append(bookings, firstName+" "+lastName)
-
-			fmt.Println(bookings)
-			fmt.Printf("type of bookings %T \n", bookings)
-
-			fmt.Println("Thank you for purchasing", userTickets, "tickets,", firstName, lastName, "you will receive an confirmation email!", email)
+			bookTicket(remaingTickets, conferneceTickets, firstName, lastName, email, userTickets, bookings)
 
             var firstNames = getFirstNames(bookings)
 			fmt.Println("First names of bookings are", firstNames)
@@ -95,4 +75,38 @@ func dataValidation(firstName string, lastName string, email string, userTickets
 	var isValidTicketNumber = userTickets > 0 && userTickets <= remaingTickets
 
 	return isValidName, isValidEmail, isValidTicketNumber
+}
+
+
+func getuserInput()(string, string, string, int){
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets int
+
+	fmt.Println("What is your first name?")
+	fmt.Scan(&firstName)
+
+	fmt.Println("What is your last name?")
+	fmt.Scan(&lastName)
+	fmt.Println("What is your email?")
+	fmt.Scan(&email)
+
+	fmt.Println("How many tickets would you like to purchase?")
+	fmt.Scan(&userTickets)
+
+	return firstName, lastName, email, userTickets
+}
+
+
+func bookTicket(remaingTickets int, conferneceTickets int, firstName string, lastName string, email string, userTickets int, bookings []string){
+	remaingTickets = remaingTickets - userTickets
+	fmt.Println("We have", remaingTickets, "tickets remaining out of", conferneceTickets, "tickets!")
+
+	bookings = append(bookings, firstName+" "+lastName)
+
+	fmt.Println(bookings)
+	fmt.Printf("type of bookings %T \n", bookings)
+
+	fmt.Println("Thank you for purchasing", userTickets, "tickets,", firstName, lastName, "you will receive an confirmation email!", email)
 }
