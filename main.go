@@ -33,8 +33,17 @@ func main(){
 	
 		fmt.Println("How many tickets would you like to purchase?")
 		fmt.Scan(&userTickets)
+
+
+		// var isValidName = len(firstName) > 2 && len(lastName) > 2
+		// var isValidEmail = strings.Contains(email, "@")
+		// var isValidTicketNumber =  userTickets >0 && userTickets <= remaingTickets
 	
-	
+		if userTickets > remaingTickets{
+			fmt.Println("Sorry, we only have ", remaingTickets, "tickets remaining!")
+			continue
+		}
+
 		remaingTickets = remaingTickets - userTickets
 		fmt.Println("We have", remaingTickets, "tickets remaining out of", conferneceTickets, "tickets!")
 	
@@ -51,5 +60,12 @@ func main(){
 			firstNames = append(firstNames, names[0])
 		}
 		fmt.Printf("first names of bookings are %v \n ", firstNames)
+
+
+		if remaingTickets == 0 {
+			fmt.Println("We are sold out!")
+			break
+		}
+
 	}
 }
