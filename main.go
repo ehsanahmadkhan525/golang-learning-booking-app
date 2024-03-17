@@ -5,15 +5,16 @@ import (
 	"strings"
 )
 
+const conferneceTickets = 50
+var conferneceName = "Go_Conference"
+
+var remaingTickets = 50
+var bookings []string // Move the declaration outside the loop
+
 func main() {
 
-	var conferneceName = "Go_Conference"
-	const conferneceTickets = 50
-	var remaingTickets = 50
+
 	greetUsers(conferneceName, remaingTickets, conferneceTickets)
-
-
-	var bookings []string // Move the declaration outside the loop
 
 	for {
 
